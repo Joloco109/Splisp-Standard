@@ -60,6 +60,52 @@ This is why we pitch to you this language, which hopefully we have implemented b
 
 \footnotetext{Wouldn't be much of a Trait system, would it?}
 
+\part{Structure}
+
+\section{Functions}
+
+\subsection{Value-typed Functions}
+\begin{itemize}
+		\item Executed at runtime,
+		\item return values of already defined types,
+		\item can use templating and compiletime arguments to create appropriate versions for runtime.
+\end{itemize}
+
+\subsection{Type-typed Functions}
+\begin{itemize}
+		\item Executed at compiletime
+		\item return new types
+		\item no runtime arguments
+		\item only templating and compiletime arguments.
+\end{itemize}
+
+\section{Types}
+Types in generell consist of a Struct containing the values, of the given instance and their canonical Trait with implemention containing function signatures and implemetation (byte-)code.
+
+\subsection{Named Types}
+Defined by the \texttt{type} keyword, they can be assigned to manual type construction or call of a typed-typed function. They are globally accessible via scoping/crates/etc. Named Types can be used like Types in most other statically typed languages. Named types do not equal one another even if they were constructed exactly the same.
+
+\subsection{Anonamous Types}
+Generally results of Type-typed function calls. Equal if constructed the same.
+
+
+\section{Traits}
+BIG TODO:\\
+Find better word for Trait $\rightarrow$ Trait, then implementation!\\
+\\
+Traits are equivalence classes of types. They contain only function signatures with optional standard implementations. Types implement Traits to be contained in the in it. Traits can also implement Traits. Trait implementation is transitive, meaning if $A \subset B$ and $B \subset C \Rightarrow A \subset C$. A Type implementing a Trait is equivalent to its canonical Trait implementing it.\\
+The Implemention of Traits must be contained in either the definition of the Trait/Type implementing or the Trait implemented, avoiding most conflicts with altering behaviour of already written code.
+
+\subsection{Diamond-Problem}
+It arises, if a Trait $A$ implements two other Traits $B$ and $C$, each implementing a Trait $D$, may now be implenemted in two different versions.\\
+Solution:\\
+The first implemented Version of the Trait takes precedence, ordering can be changed in code, via anonamous type reconstruction.
+
+\subsection{Side-effects}
+
+Does this type-trait-system have Side-effects?
+When matching Traits/Deciding templating the addition of a new trait does not change the result of the computation.
+
 
 
 \part{Grammar}
