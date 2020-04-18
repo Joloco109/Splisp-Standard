@@ -25,6 +25,8 @@
 
 \newpage
 
+\parindent0pt
+
 \part{Introduction}
 
 \section{Demotivation}
@@ -60,139 +62,57 @@ This is why we pitch to you this language, which hopefully we have implemented b
 
 \footnotetext{Wouldn't be much of a Trait system, would it?}
 
-
-
 \part{Grammar}
-
-\section{Expression}
-
-\subsection{Simple Expressions}
-
-Simple expressions are function calls or unary or binary operators. They have they can have any number of arguments and a distinct return value.
-
-%\subsection{General Expressions}
-\medskip
-
-Generally, simple expressions can be composed from other simple expressions by applying a simple expression to the result of another simple expression.
-
-\subsection{Statement}
-
-A statement consists of the following components:
-
-\begin{itemize}
-    \item the keyword \texttt{let}
-    \item the identifier aka name
-    \item a colon, followed by the "return type" of the statement
-    \item the equality sign \texttt{=}
-    \item the expression (you are also allowed to use expressions with statements) the identifier is bound to, followed by a semicolon
-\end{itemize}
-
-\begin{lstlisting}
-let x:float = 5;
-let y:float = 3.4 / x;
-let z := 3.4;
-\end{lstlisting}
-
-\begin{lstlisting}
-expression        = ( LET ident COLON ident EQUALS expression)*
-                      simple_expression
-simple_expression = func_call | bin_op | un_op | literal
-func_call         = ident LBR expression ( COMMA expression )* RBR
-ident             = a-z(a-z|0-9|_)*
-\end{lstlisting}
-
-\subsection{Expressions}
-An expressions consists of zero or more statements and is finished by a simple expression.
 
 \section{Lists}
 
-\section{Functions}
+Splisp is, at it's core, a list-based language (never could've guessed that, could'ya?). Differently declared lists have very different meanings in Splisp, and it is vital that you know what kind of list does what:
+
+\begin{itemize}
+	\item[Parenthesised lists:] () \newline
+	These lists are used to declare a pattern of variables of specific types, such as in function declarations or composite patterns used for declaring the type of a function (think, Haskell: \lstinline|(i8, f32) -> (std.string)|). Elements of the list are delimited by a comma.
+	\item[Braces:] \{\} (Colloquially curly brackets) \newline
+	Used to implement code. You write code in here. It's like C. (Or, if you are an idiot, like Java) It's a list of statements.
+	\item[Chevroned lists:] \textless\textgreater\ (Colloquially angle brackets) \newline
+	These are similar to the parenthesised lists, but they are for metapatterns. This means they can match a list of types. Elements of the list are delimited by a comma. Specific usage is explained later, so ignore examples from here on until you understand how they work.
+	\item[Bracketed lists:] [] (Colloquially square brackets) \newline
+	These are used for instantiations of either parenthesised or chevroned lists. It is very much like you would expect (\lstinline|[i8, f32, std.string]| for types or \lstinline|[23, 500.1234, "Baguette"]| for a matching set of variables). Elements of this list are delimited by a comma.
+\end{itemize}
+
+But there's more: Pattern - matching lists (i.e. parenthesised and chevroned lists) can have the last entry repeating. This is done by virtue of a trailing comma. Examples:
+\begin{itemize}
+	\item \lstinline|[25, "Baguette", "Avec", "Fromage"]| matches \lstinline|(i8, std.string,)| as well as \lstinline|(i8, std.string, std.string,)| \lstinline|(i8, std.string, std.string, std.string,)| and \lstinline|(i8, std.string, std.string, std.string)| (Note the last one omitting the trailing comma, making the amount of allowed parameters fixed)
+	\item \lstinline|[i8, std.string, std.string]| matches \lstinline|<*, *,>| and \lstinline|<*, *, *>|, but \textbf{not} \lstinline|<*,>|
+\end{itemize}
+
+The elements of pattern - matching lists are often given a name to be able to refer to them in function  or type definitons. While not wanting to dive too deeply into usage at this point, these names are given by first stating the name and then the to-be matched part of the pattern. Examples:
+
+\begin{itemize}
+	\item \lstinline|(ubound:f32, lbound:f32)|
+	\item \lstinline|<T:incrementable, U:<storable,>>| $\leftarrow$ Watch out! This one also uses type traits instead of \lstinline|*|s!
+\end{itemize}
+
+\subsection{Handling lists}
+
+For lists, exactly one operator exists to handle them. This is the octothorpe operator, in short "thorperator". It takes a list and makes the exterior pattern match take the lists elements as single entries in the pattern match. Example:
+
+\smallskip
+
 \begin{lstlisting}
-func_def = name function_sig EQUALS expression
-
-func_dcl = name function_sig SEMICOLON
-
-func_signature = parameter_list (ARROW ret_type)?
-
-function_call = name list
-
-parameter_list = LBR ( par_name (COLON type_name)? ( COMMA par_name (COLON type_name) )*)? RBR
+let x:(i32, f32, std.string, f64) = [-200, -3.123, "ohgodsendhalp", 0.123456789]
+f:(std.string, i32, i32, f32, std.string, f64) -> i32 = func (std.string, i32, i32, f32, std.string, f64) { 0 }
+f["plsno", 25555, #x]
 \end{lstlisting}
 
+%\section{On structure}
 
-\section{Types}
+%This section has already been written, but I currently don't have access to it. Sorry.
 
-\subsection{Methods}
+%\section{Types}
 
-\section{Traits}
+%\section{Traits}
 
+%\section{Functions}
 
-
-
-
-\part{Reference of basic language features}
-
-\section{Operators (language-inherent types)}
-
-%Operators are applied to expressions in the following fashion: For an expression \texttt{E}, 
-
-For the language-inherent types, a set of operators performs a given set of operations on these types. The language-inherent 
-
-Arithmetic operations perform on 
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{c|c|c}
-    \multicolumn{3}{c}{Unary arithmetic operators} \\ \hline
-        - & operator-()         & Invert \\ \hline
-    \multicolumn{3}{c}{Binary arithmetic operators} \\ \hline
-        + & operator+(other)    & Add \\
-        - & operator-(other)    & Sub \\
-        $*$ & operator*(other)  & Mul \\
-        / & operator/(other)    & Div \\
-    \multicolumn{3}{c}{Unary logical operators} \\ \hline
-        
-    \end{tabular}
-\end{table}
-
-
-\part{Standard Library}
-
-In the following context, the phrase "language-inherent" does NOT imply the constructs have to exist in the language itself, but rather that the respective parts of the library do not have to be imported manually.
-
-\section{Basic "language-inherent" types}
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{c|c}
-    \multicolumn{2}{c}{Integral types} \\ \hline
-        i8 & Signed 8 bit integer \\
-        i16 & Signed 16 bit integer \\
-        i32 & Signed 32 bit integer \\
-        i64 & Signed 64 bit integer \\
-        u8 & Unsigned 8 bit integer \\
-        u16 & Unsigned 16 bit integer \\
-        u32 & Unsigned 32 bit integer \\
-        u64 & Unsigned 64 bit integer \\ \hline
-    \multicolumn{2}{c}{Floating-point types} \\ \hline
-        f32 & Single-precision IEEE 754-2008 floating point number \\
-        f64 & Double-precision IEEE 754-2008 floating point number \\
-        f80 & Extended-precision IEEE 754-2008 floating point number \\
-        f128 & Either $\equiv$ f80 or Quad-precision IEEE 754-2008 floating point number \\ \hline
-        bool & 1-bit Boolean type \\ \hline
-        char & 8-bit character \\
-        uchar & 1 Unicode character representation 
-    \end{tabular}
-\end{table}
-
-\section{Basic "language-inherent" type traits}
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{c|c}
-        add & Addition must be supported \\
-         & 
-    \end{tabular}
-\end{table}
 
 \end{document}
