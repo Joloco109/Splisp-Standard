@@ -1,0 +1,80 @@
+//const = lit | const
+
+obj x obj -> obj : y
+obj x obj -> type : n
+obj x obj -> const : n
+obj x type -> obj : y
+obj x type -> type : n
+obj x type -> const : n
+obj x const -> obj : y
+obj x const -> type : n
+obj x const -> const : n
+type x type -> obj : y
+type x type -> type : y
+type x type -> const : y
+type x const -> obj : y
+type x const -> type : y
+type x const -> const : y
+const x const -> obj : y
+const x const -> type : y
+const x const -> const : y
+
+template <T,U>
+concept is_addable
+{
+    integral<T> || integral<U>;
+    operator+(T,U);
+}
+
+template <>
+concept is_addable<int, int> = true;
+
+template <T,U>
+f (T x, U y)
+requires is_addable<T, U>
+{...}
+
+
+Number := (trait <U:Addable> { Addable<U, U> & Subtractable<U, U> })
+
+Group := [trait <U:*, f:U -> U> { false; }]
+Group := [trait <i64:*, operator+> { true; }]
+
+i = f(x)
+
+
+#!include std.math.traits
+
+T := [type .....]
+
+Group<i64, operator+> { true; }
+type List <T:Storable> () { ... }
+List<i64> {}
+
+
+
+
+T {
+    f(...)
+    g(...)
+}
+
+Group<T, f> { true; } default
+Group<T, g> { true; }
+
+func gmul <Type, func>
+    req Group<Type, func>
+    (x:Type, y:Type) { func(x,y) }
+
+
+T x; T y;
+multiply (x,y);           ## -> f(x,y)
+multiply <T, T.g> (x,y);  ## -> g(x,y)
+
+
+
+
+func f <> () {...}
+
+type File (filename : std.string) {...}
+
