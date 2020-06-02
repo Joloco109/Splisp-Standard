@@ -74,7 +74,58 @@ multiply <T, T.g> (x,y);  ## -> g(x,y)
 
 
 
-func f <> () {...}
+func f <> [] {...}
 
 type File (filename : std.string) {...}
+
+
+
+
+
+
+type File (filename : std.Filey) {
+    
+}
+
+File (filename : std.string) {
+    readAll() {
+        ......
+        result
+    }
+}
+
+
+
+f := func ...
+
+x = File("abc")
+s = x.readAll()
+
+
+
+{
+    match cmp(a,b) (std.larger) res
+                   (std.smaller) other_res
+                   (std.equal) other_res
+}
+
+{
+    a = i+1
+    b = j-1
+    x = match twogreatest(a,b,i)
+        (a,b) i-4
+        (a,i) a+b
+        (b,i) j
+        (f,i) a+i
+        (f,l) f-l
+}
+
+
+
+
+
+
+
+
+
 

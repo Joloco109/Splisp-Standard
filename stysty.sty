@@ -1,48 +1,110 @@
-\RequirePackage[utf8]{inputenc}
-\RequirePackage[english]{babel}
-\RequirePackage{listings}
-\RequirePackage{color}
-\RequirePackage{verbatim}
-\RequirePackage{graphicx}
-\RequirePackage{float}
-\RequirePackage{epigraph}
+\ProvidesPackage{pstyling}[2020 Physics Styling]
+
+% Packages
+\RequirePackage[english]{babel}             % Language and spell check
+\RequirePackage[utf8]{inputenc}             % Text encoding
+\RequirePackage{amsmath}                    % Additional mathematical formulas and environments
+\RequirePackage{amssymb}                    % Additional mathematical symbols
+\RequirePackage{amsfonts}                   % Additional mathematical fonts
+\RequirePackage{mathrsfs}                   % Font: MathSkript
+\RequirePackage{physics}                    % Physics package for beatiful vectors, matrices, ... Please use, Lennart
+\RequirePackage[onehalfspacing]{setspace}   % SPAAAAACING
+\RequirePackage{graphicx}                   % Simple inclusion of pictures
+\RequirePackage{cancel}                     % CANCELTO. (Diagonal crossout with limit)
+\RequirePackage{tensor}                     % Fucking tensors
+\RequirePackage{scrlayer-scrpage}           % HELP! https://www.ctan.org/pkg/scrlayer-scrpage
+\RequirePackage{pgffor}                     % whaaaaaaaaa...?
+\RequirePackage{bigints}                    % Bigger integers
+\RequirePackage{esint}                      % Mooooooore integrals
+\RequirePackage[separate-uncertainty=true]{siunitx}                    % Support for simple SI units
+\RequirePackage{scalerel}                   % Relative scaling, completely fucked up
+\RequirePackage{listings}                   % Listings
+\RequirePackage{verbatim}                   % Comments
+\def\parenthis#1{\scaleleftright[1.5ex]{(}{#1}{)}}
+\RequirePackage{float}                      % scale, shift, rotate, ... floats (tables, images, ...)
+\RequirePackage{import}                     % import sections 
+\RequirePackage{color}                      % colors
+\RequirePackage{wrapfig}                    % position of the Figures
+\RequirePackage{hyperref}
+\RequirePackage{relsize}
+\RequirePackage{todonotes}
+\RequirePackage{bbold}
+
+% Styling von listings
+\lstdefinestyle{custompython}{
+	belowcaptionskip=1\baselineskip,
+	breaklines=true,
+	frame=L,
+	xleftmargin=\parindent,
+	language=Python,
+	showstringspaces=false,
+	basicstyle=\footnotesize\ttfamily,
+	keywordstyle=\bfseries\color{green!40!black},
+	commentstyle=\itshape\color{purple!40!black},
+	identifierstyle=\color{blue},
+	stringstyle=\color{orange},
+	numbers=left,                    
+	numbersep=8pt,                   
+	numberstyle=\tiny\color{lightgray},
+}
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 
-\lstset{ 
-  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
-  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-  breaklines=true,                 % sets automatic line breaking
-  captionpos=b,                    % sets the caption-position to bottom
-  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-  keywordstyle=\color{blue},       % keyword style
-  morekeywords={*,...},            % if you want to add more keywords to the set
-  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
-  numbersep=5pt,                   % how far the line-numbers are from the code
-  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
-  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
-  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
-  showstringspaces=false,          % underline spaces within strings only
-  showtabs=false,                  % show tabs within strings adding particular underscores
+\lstdefinestyle{customcpp}{
+	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=b,                    % sets the caption-position to bottom
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	keywordstyle=\color{blue},       % keyword style
+	language=C++,                 % the language of the code
+	morekeywords={*,...},            % if you want to add more keywords to the set
+	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+	rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,
 }
 
 \lstset{literate=
-  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
-  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
-  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
-  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
-  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
-  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
-  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
-  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
-  {Ã}{{\~A}}1 {ã}{{\~a}}1 {Õ}{{\~O}}1 {õ}{{\~o}}1
-  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
-  {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
-  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
-  {€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
-  {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1 {°}{{$^\circ$}}1
+	{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+	{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+	{à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+	{À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+	{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+	{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+	{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+	{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+	{Ã}{{\~A}}1 {ã}{{\~a}}1 {Õ}{{\~O}}1 {õ}{{\~o}}1
+	{œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+	{ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+	{ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+	{€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
+	{»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1 {°}{{$^\circ$}}1
+}
+
+% Simple persistent binds
+% Symbols and neat stuff
+\newcommand{\lagr}{\mathcal{L}}         % "Lagrange - L"
+\newcommand{\hamil}{\mathcal{H}}        % "Hamilton - H"
+\newcommand{\vphi}{\varphi}             % "nice" phi
+\newcommand{\dva}[1]{\dot{\va{#1}}}     % dotted, arrowed vector
+\newcommand{\dvb}[1]{\dot{\vb{#1}}}     % dotted, unarrowed vector
+\newcommand{\ix}[1]{\indices{#1}}       % indices for tensors
+\newcommand{\numberthis}{\addtocounter{equation}{1}\tag{\theequation}} % Numbering inside align*. Thanks Stackexchange.
+\newcommand{\pdl}[1]{\partial_{#1}}     % partial derivative with lower index
+\newcommand{\pdu}[1]{\partial^{#1}}     % partial derivative with upper index
+\newcommand{\leci}[1]{\epsilon_{#1}}    % Levi - Civita-Symbol with lower indices
+\newcommand{\krone}[1]{\delta_{#1}}     % Kronecker-Symbol with lower indices
+\newcommand{\laplace}{\mathbf{\Delta}}  % Laplacian
+\newcommand{\degrees}{^\circ}           % Degrees symbol
+\newcommand{\peqcomment}[1]{&&\quad\left| #1\right.}  % Equation comments
+\newcommand{\poverset}[2]{
+	\overset{\makebox[0pt][c]{\scriptsize #1}}{#2} \text{\makebox[0.5\width][l]{\scriptsize\phantom{#1}}}
 }
 
 % Footnoting
@@ -52,4 +114,74 @@
 \newcommand{\pFootmark}{\footnotemark}
 \newcommand{\pFoottext}[1]{\stepcounter{footnote}\footnotetext{#1}}
 
+% Commenting
+\newcommand{\pComment}[1]{}
+\newcommand{\pShowComments}
+{\renewcommand{\pComment}[1]{\begin{itemize}
+			##1
+		\end{itemize}
+}}
+\newcommand{\done}{\checkmark}
 
+% Title and header customisation
+\newcommand{\@pLongSubject}{\fbox{Long Subject}}    % Long subject String
+\newcommand{\@pShortSubject}{\fbox{Short Subject}}  % Short Subject String
+\newcommand{\@pShortAuthor}{\fbox{Short Author}}    % Short Author String
+\newcommand{\@pTitlePrefix}{Abgabe}                 % Prefix for numbering in title
+\newcommand{\@pSubtitle}{}                          % Subtitle Management
+
+\newcommand{\pSetLongSubject}[1]{\renewcommand{\@pLongSubject}{#1}}
+\newcommand{\pSetShortSubject}[1]{\renewcommand{\@pShortSubject}{#1}}
+\newcommand{\pSetShortAuthor}[1]{\renewcommand{\@pShortAuthor}{#1}}
+\newcommand{\pSetTitlePrefix}[1]{\renewcommand{\@pTitlePrefix}{#1}}
+\newcommand{\pSetCorrected}{
+	\let\pTempSubtitleCorrected\@pSubtitle
+	\renewcommand{\@pSubtitle}{\pTempSubtitleCorrected Korrigierte Version\\}
+}
+
+\newcommand{\pSetTitleNumber}[1][X]{                % Convenience macro for Title
+	\title{\@pTitlePrefix\ #1}
+}
+
+\newcommand{\pheading}[2]{\ohead{#1}\chead{#2}} % Custom headings
+
+
+% Our own sectioning
+\newcommand{\@pSectionPrefix}{Aufgabe}
+\newcommand{\pSetSectionPrefix}[1]{\renewcommand{\@pSectionPrefix}{#1}}
+
+\newcounter{psection}
+\newcounter{psubsection}[psection]
+\newcounter{psubsubsection}[psubsection]
+
+\newcommand{\psection}{
+	\stepcounter{psection}
+	\section*{\@pSectionPrefix\ \arabic{psection}}
+}
+
+\newcommand{\psubsection}{
+	\stepcounter{psubsection}
+	\subsection*{\arabic{psection}.\alph{psubsection})}
+}
+
+\newcommand{\psubsubsection}{
+	\stepcounter{psubsubsection}
+	\subsubsection*{\arabic{psection}.\alph{psubsection}.\arabic{psubsubsection})}
+}
+
+\newcommand{\pskipsection}[1][1]{\foreach \n in {1,...,#1}{\stepcounter{psection}}}
+\newcommand{\pskipsubsection}[1][1]{\foreach \n in {1,...,#1}{\stepcounter{psubsection}}}
+\newcommand{\pskipsubsubsection}[1][1]{\foreach \n in {1,...,#1}{\stepcounter{psubsubsection}}}
+
+\newcommand{\pmultisub}[1][2]{
+	\subsection*{\arabic{psection}.\stepcounter{psubsection}\alph{psubsection}\foreach \n in {2,...,#1}{\stepcounter{psubsection}+\alph{psubsection}})
+	}
+}
+
+% Actual customisation
+\pheading{\@pShortAuthor}{\@pShortSubject}
+\subject{\@pLongSubject}
+\pSetTitleNumber
+\subtitle{\@pSubtitle}
+
+\endinput
